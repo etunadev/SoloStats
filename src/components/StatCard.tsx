@@ -6,10 +6,11 @@ import { StyleSheet, Text, View } from 'react-native';
 interface StatCardProps {
   title: string;
   value: string;
+  subText?: string;
   trend: string;
 }
 
-const StatCard: React.FC<StatCardProps> = ({ title, value, trend }) => {
+const StatCard: React.FC<StatCardProps> = ({ title, value, subText, trend }) => {
   const themeColors = useTheme();
   const isPositive = trend.startsWith('+'); // Trendin yönüne göre renk seçimi
 
@@ -17,8 +18,13 @@ const StatCard: React.FC<StatCardProps> = ({ title, value, trend }) => {
     <View style={[styles.card, { backgroundColor: themeColors.backgroundElement }]}>
       <Text style={[styles.title, { color: themeColors.textSecondary }]}>{title}</Text>
       <Text style={[styles.value, { color: themeColors.text }]}>{value}</Text>
+      {subText && (
+        <Text style={[styles.subText, { color: themeColors.textSecondary }]}>
+          {subText}
+        </Text>
+      )}
       <Text style={[styles.trend, { color: isPositive ? '#4ade80' : '#f87171' }]}>
-        {trend}
+        {isPositive ? `↑ ${trend}` : `↓ ${trend}`}
       </Text>
     </View>
   );
@@ -48,6 +54,10 @@ const styles = StyleSheet.create({
   trend: {
     fontSize: 12,
     fontWeight: '600',
+  },
+  subText: {
+    fontSize: 12,
+    marginBottom: Spacing.one, // Or adjust as needed
   },
 });
 
