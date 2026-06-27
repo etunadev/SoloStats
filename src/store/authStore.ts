@@ -2,12 +2,12 @@ import { create } from 'zustand';
 
 interface AuthState {
   userToken: string | null;
-  login: (token: string) => void;
+  login: (idToken: string | null, accessToken: string | null) => void;
   logout: () => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
   userToken: null, // Varsayılan olarak giriş yapılmamış (null)
-  login: (token) => set({ userToken: token }),
+  login: (idToken, accessToken) => set({ userToken: idToken || accessToken }),
   logout: () => set({ userToken: null }),
 }));

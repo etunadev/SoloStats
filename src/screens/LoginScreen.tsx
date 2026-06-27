@@ -1,6 +1,8 @@
 import { Spacing } from '@/constants/theme';
 import { useTheme } from '@/hooks/use-theme';
+import { GoogleSignin } from '@react-native-google-signin/google-signin'; // Gerçek kütüphane importu
 import { useRouter } from 'expo-router';
+import { useEffect } from 'react';
 import { Pressable, StatusBar, StyleSheet, Text, useColorScheme, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useAuthStore } from '../store/authStore';
@@ -11,9 +13,40 @@ export default function LoginScreen() {
   const router = useRouter();
   const login = useAuthStore((state) => state.login);
 
-  const handleGoogleLogin = () => {
-    login('mock-google-oauth-token');
-    router.replace('/');
+  useEffect(() => {
+    const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+
+    if (webClientId) {
+      GoogleSignin.configure({
+        webClientId: webClientId,
+      });
+    } else {
+      console.warn("Google Sign-In: .env dosyasında EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID bulunamadı!");
+    }
+  }, []);
+
+const handleGoogleLogin = async () => {
+    try {
+      // 1. Cihazda Google Play servisleri var mı kontrol et
+      await GoogleSignin.hasPlayServices();
+      
+      // 2. Gerçek Google giriş penceresini tetikle
+      const response = await GoogleSignin.signIn();
+      
+      // v13+ API yapısında idToken doğrudan response.data altındadır
+      const idToken = response.data?.idToken || null;
+
+      if (idToken) {
+        // 3. Store'un beklediği ikinci parametreye (accessToken) doğrudan null geçerek 
+        // 'Property does not exist on type User' hatasını kökten çözüyoruz.
+        login(idToken, null);
+        router.replace('/');
+      } else {
+        console.error("Google Sign-In: idToken alınamadı.");
+      }
+    } catch (error) {
+      console.error("Google Sign-In Gerçek Akış Hatası:", error);
+    }
   };
 
   return (
@@ -28,7 +61,7 @@ export default function LoginScreen() {
           </Text>
         </View>
 
-        <Pressable 
+        <Pressable
           style={({ pressed }) => [styles.loginButton, { backgroundColor: themeColors.backgroundElement, opacity: pressed ? 0.8 : 1 }]}
           onPress={handleGoogleLogin}
         >
