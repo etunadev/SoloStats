@@ -4,11 +4,14 @@
  */
 
 import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
+import { useAuthStore } from '../store/authStore'; // Zustand store'umuzu dahil ettik
 
 export function useTheme() {
-  const scheme = useColorScheme();
-  const theme = scheme === 'unspecified' ? 'light' : scheme;
+  // 1. Cihazın sistem şeması yerine artık tamamen Zustand store'daki el ile seçilen state'i dinliyoruz
+  const isDarkMode = useAuthStore((state) => state.isDarkMode);
+
+  // 2. isDarkMode true ise 'dark', false ise 'light' renk setini dönüyoruz
+  const theme = isDarkMode ? 'dark' : 'light';
 
   return Colors[theme];
 }

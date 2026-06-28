@@ -1,17 +1,16 @@
 import { DarkTheme, DefaultTheme, Slot, ThemeProvider, useRouter, useSegments } from 'expo-router';
 import { useEffect } from 'react';
-import { useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
 import { useAuthStore } from '../store/authStore';
 
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
+export default function RootLayout() {
   const router = useRouter();
   const segments = useSegments();
   
+  // Zustand'dan hem token'ı hem de güncel tema durumunu çekiyoruz
   const userToken = useAuthStore((state) => state.userToken);
+  const isDarkMode = useAuthStore((state) => state.isDarkMode);
   const inLoginScreen = segments[0] === 'login';
 
   useEffect(() => {
@@ -22,20 +21,11 @@ export default function TabLayout() {
     }
   }, [userToken, inLoginScreen]);
 
-  // Temayı sarmalayan ortak yapıyı bozmamak için içeriği dinamik seçiyoruz
-  const renderContent = () => {
-    if (!userToken) {
-      // Giriş yapılmadıysa SADECE login sayfasını (Slot) çiz, sekmeleri (AppTabs) yükleme!
-      return <Slot />;
-    }
-    // Giriş yapıldıysa sekmeli ana yapıyı yükle
-    return <AppTabs />;
-  };
-
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+    // React Navigation temalarını Zustand'dan gelen değere göre dinamik besliyoruz
+    <ThemeProvider value={isDarkMode ? DarkTheme : DefaultTheme}>
       <AnimatedSplashOverlay />
-      {renderContent()}
+      <Slot />
     </ThemeProvider>
   );
 }

@@ -1,8 +1,10 @@
 import { Spacing } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { useTheme } from '@/hooks/use-theme';
+import { useAuthStore } from '@/store/authStore';
+import { useRouter } from 'expo-router'; // 1. EKSİK: useRouter import edildi
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, Pressable, StatusBar, StyleSheet, Text, View } from 'react-native'; // 2. EKSİK: Pressable import edildi
 import { SafeAreaView } from 'react-native-safe-area-context';
 import StatCard from '../components/StatCard';
 import { fetchAdMobDailyReport } from '../services/admobService';
@@ -11,10 +13,14 @@ import { AdMobReportResponse } from '../types/admob';
 const Dashboard: React.FC = () => {
   const themeColors = useTheme();
   const colorScheme = useColorScheme();
+  const router = useRouter(); // 3. EKSİK: router nesnesi tanımlandı
 
   // State tanımlamaları
   const [loading, setLoading] = useState<boolean>(true);
   const [reportData, setReportData] = useState<AdMobReportResponse | null>(null);
+
+
+  const isDarkMode = useAuthStore((state) => state.isDarkMode);
 
   useEffect(() => {
     const loadAdMobData = async () => {
@@ -41,8 +47,7 @@ const Dashboard: React.FC = () => {
     );
   }
 
-  // // API'den gelen ham verileri ayıklıyoruz
-
+  // API'den gelen ham verileri ayıklıyoruz
   const row = reportData?.rows?.[0];
 
   const estimatedEarnings = row?.metricValues?.ESTIMATED_EARNINGS?.microsValue
@@ -62,17 +67,29 @@ const Dashboard: React.FC = () => {
     : '0';
 
   const clicks = row?.metricValues?.CLICKS?.integerValue?.toString() || '0';
+
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: themeColors.background }]} nativeID="safe-area-dashboard">
       <StatusBar
-        barStyle={colorScheme === 'dark' ? 'light-content' : 'dark-content'}
+        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={themeColors.background}
       />
 
-      <View style={styles.content} nativeID="view-dashboard-content">
+      {/* Üst Bar: Başlık ve Ayarlar Butonu Hizalaması Düzenlendi */}
+      <View style={styles.headerRow}>
         <Text style={[styles.title, { color: themeColors.text }]} nativeID="text-solostats-title">
           SoloStats
         </Text>
+        <Pressable
+          onPress={() => router.push('/settings')}
+          style={({ pressed }) => [{ opacity: pressed ? 0.6 : 1 }, styles.settingsButton]}
+        >
+          <Text style={{ fontSize: 26 }}>⚙️</Text>
+        </Pressable>
+      </View>
+
+      {/* İçerik Alanı: Mükerrer Başlık Kaldırıldı */}
+      <View style={styles.content} nativeID="view-dashboard-content">
         <View style={styles.cardsContainer} nativeID="view-stat-cards-container">
           <StatCard title="Tahmini Gelir" value={estimatedEarnings} trend="+15%" subText="Dün: $21.30" />
           <StatCard title="Sayfa BGBG" value={pageRpm} trend="+4%" subText={`Gösterim: ${impressions}`} />
@@ -93,19 +110,31 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    paddingVertical: Spacing.two,
+    marginTop: Spacing.two,
+  },
+  settingsButton: {
+    position: 'absolute',
+    right: Spacing.four,
+  },
   content: {
     padding: Spacing.three,
   },
   title: {
-    fontSize: 36,
+    fontSize: 32,
     fontWeight: 'bold',
-    marginBottom: Spacing.four,
     textAlign: 'center',
   },
   cardsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-around',
+    marginTop: Spacing.two,
   },
 });
 

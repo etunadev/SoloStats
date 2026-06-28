@@ -9,18 +9,18 @@ import { Platform } from 'react-native';
 
 export const Colors = {
   light: {
-    text: '#000000',
-    background: '#ffffff',
-    backgroundElement: '#F0F0F3',
-    backgroundSelected: '#E0E1E6',
-    textSecondary: '#60646C',
+    text: '#1C1C1E',             // Tam keskin olmayan yumuşak bir siyah
+    background: '#F2F2F7',       // Apple standardı temiz açık gri arka plan
+    backgroundElement: '#FFFFFF',// Kartlar saf beyaz, arka plandan ayrılsın
+    backgroundSelected: '#E5E5EA',
+    textSecondary: '#68686E',
   },
   dark: {
-    text: '#ffffff',
-    background: '#000000',
-    backgroundElement: '#212225',
-    backgroundSelected: '#2E3135',
-    textSecondary: '#B0B4BA',
+    text: '#F3F4F6',             // Gözü yormayan kırık beyaz yazı
+    background: '#121214',       // BEST PRACTICE: Saf siyah yerine premium koyu antrasit
+    backgroundElement: '#1E1E24',// Kartlar ve elementler için bir tık daha açık antrasit tonu (katman hissi)
+    backgroundSelected: '#2A2B36',// Seçili alanlar için belirgin ton
+    textSecondary: '#9CA3AF',    // İkincil yazılar için yumuşak gri
   },
 } as const;
 
