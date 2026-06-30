@@ -1,0 +1,37 @@
+{
+  "common": {
+    "loading": "Fetching data...",
+    "retry": "Try Again",
+    "yes": "Yes",
+    "no": "No",
+    "back": "Back"
+  },
+  "dashboard": {
+    "title": "SoloStats",
+    "errorTitle": "Connection Error",
+    "emptyTitle": "No Data Yet",
+    "errorDesc": "No AdMob account found linked to this Google account, or permission denied.",
+    "emptyDesc": "There are no ad impressions or earnings data for today.",
+    "estEarnings": "Est. Earnings",
+    "yesterday": "Yesterday",
+    "pageRpm": "Page RPM",
+    "impressions": "Impressions",
+    "adRequests": "Ad Requests",
+    "matchRate": "Match Rate",
+    "clicks": "Clicks (CTR)",
+    "ctr": "CTR"
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "darkMode": "Dark Mode",
+    "account": "Account",
+    "logoutBtn": "Log Out",
+    "logoutAlertTitle": "Log Out",
+    "logoutAlertDesc": "Are you sure you want to log out of your account?"
+  },
+  "login": {
+    "subtitle": "Track your AdMob performance and app revenues in real-time.",
+    "loginBtn": "Sign in with Google"
+  }
+}

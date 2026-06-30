@@ -2,6 +2,7 @@ import { DarkTheme, DefaultTheme, Slot, ThemeProvider, useRouter, useSegments } 
 import { useEffect } from 'react';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
+import '@/locales/i18n';
 import { useAuthStore } from '../store/authStore';
 
 export default function RootLayout() {

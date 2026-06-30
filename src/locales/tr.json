@@ -1,0 +1,37 @@
+{
+  "common": {
+    "loading": "Veriler alınıyor...",
+    "retry": "Tekrar Dene",
+    "yes": "Evet",
+    "no": "Hayır",
+    "back": "Geri"
+  },
+  "dashboard": {
+    "title": "SoloStats",
+    "errorTitle": "Bağlantı Hatası",
+    "emptyTitle": "Henüz Veri Yok",
+    "errorDesc": "Bu Google hesabına bağlı bir AdMob hesabı bulunamadı veya verilere erişim izni verilmedi.",
+    "emptyDesc": "Bugün için herhangi bir reklam gösterimi veya kazanç verisi bulunmuyor.",
+    "estEarnings": "Tahmini Gelir",
+    "yesterday": "Dün",
+    "pageRpm": "Sayfa BGBG",
+    "impressions": "Gösterim",
+    "adRequests": "Reklam İstekleri",
+    "matchRate": "Eşleşme",
+    "clicks": "Tıklamalar (CTR)",
+    "ctr": "TO"
+  },
+  "settings": {
+    "title": "Ayarlar",
+    "appearance": "Görünüm",
+    "darkMode": "Karanlık Mod",
+    "account": "Hesap",
+    "logoutBtn": "Çıkış Yap",
+    "logoutAlertTitle": "Çıkış Yap",
+    "logoutAlertDesc": "Hesabınızdan çıkış yapmak istediğinize emin misiniz?"
+  },
+  "login": {
+    "subtitle": "AdMob performansınızı ve uygulama gelirlerinizi anlık olarak takip edin.",
+    "loginBtn": "Google ile Giriş Yap"
+  }
+}
